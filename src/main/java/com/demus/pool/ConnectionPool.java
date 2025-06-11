@@ -16,9 +16,10 @@ public interface ConnectionPool {
 
     public void destroy();
 
-    public void setMaxActive(int maxActive);
+    public void setMaxSize(int maxSize);
 
     public void setCoreSize(int coreSize);
+
 
 //    public void setMinIdle(int minIdle);
 

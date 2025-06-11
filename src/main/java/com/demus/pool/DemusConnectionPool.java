@@ -19,12 +19,17 @@ public class DemusConnectionPool extends AbstractConnectionPool{
     }
 
     @Override
-    public Connection getConnection() throws SQLException {
+    public synchronized Connection getConnection() throws SQLException {
 
-
-
-
-        DriverManager.getConnection(url, username, password);
+        Connection connection = this.idlePool.poll();
+        if (connection == null && activePool.size() < maxSize) {
+            connection = createConnection();
+        }
+        if (connection == null) {
+            throw new SQLException("连接池已满");
+        }
+        activePool.add(connection);
+        return connection;
     }
 
     @Override
@@ -34,16 +39,6 @@ public class DemusConnectionPool extends AbstractConnectionPool{
 
     @Override
     public void destroy() {
-
-    }
-
-    @Override
-    public void setMaxActive(int maxActive) {
-
-    }
-
-    @Override
-    public void setCoreSize(int coreSize) {
 
     }
 }
