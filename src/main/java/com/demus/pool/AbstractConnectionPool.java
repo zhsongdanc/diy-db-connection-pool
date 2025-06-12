@@ -21,20 +21,16 @@ public abstract class AbstractConnectionPool implements ConnectionPool{
 
     private static final String DRIVER_CLASS_NAME = "com.mysql.jdbc.Driver";
 
-    private static int DEFAULT_CORE_SIZE = 5;
-
-    private static int DEFAULT_MAX_SIZE = 10;
+    private static final int DEFAULT_MAX_ACTIVE_SIZE = 30;
 
     protected String url;
     protected String username;
     protected String password;
 
     protected LinkedBlockingDeque<Connection> idlePool;
-    protected LinkedBlockingDeque<Connection> activePool;
+    protected Set<Connection> activePool ;
 
-    protected int coreSize;
-
-    protected int maxSize;
+    protected int maxActiveSize;
 
 
     public AbstractConnectionPool(String url, String username, String password) {
@@ -47,10 +43,9 @@ public abstract class AbstractConnectionPool implements ConnectionPool{
         this.username = username;
         this.password = password;
         idlePool = new LinkedBlockingDeque<>();
-        activePool = new LinkedBlockingDeque<>();
+        activePool = new HashSet<>();
 
-        this.coreSize = DEFAULT_CORE_SIZE;
-        this.maxSize = DEFAULT_MAX_SIZE;
+        this.maxActiveSize = DEFAULT_MAX_ACTIVE_SIZE;
     }
 
 
@@ -64,11 +59,8 @@ public abstract class AbstractConnectionPool implements ConnectionPool{
         return connection;
     }
 
-    public void setCoreSize(int coreSize) {
-        this.coreSize = coreSize;
-    }
 
-    public void setMaxSize(int maxSize) {
-        this.maxSize = maxSize;
+    public void setMaxSize(int maxActiveSize) {
+        this.maxActiveSize = maxActiveSize;
     }
 }

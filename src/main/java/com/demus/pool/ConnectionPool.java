@@ -14,11 +14,10 @@ public interface ConnectionPool {
 
     public void releaseConnection(Connection conn);
 
-    public void destroy();
+    public void closeConnection(Connection conn);
 
     public void setMaxSize(int maxSize);
 
-    public void setCoreSize(int coreSize);
 
 
 //    public void setMinIdle(int minIdle);
