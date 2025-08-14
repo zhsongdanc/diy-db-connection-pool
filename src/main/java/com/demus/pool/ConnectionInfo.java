@@ -1,5 +1,8 @@
 package com.demus.pool;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import java.sql.Connection;
 
 /**
@@ -7,10 +10,12 @@ import java.sql.Connection;
  * @describe
  * @date 2025/6/10 00:37
  */
-public class ConnectionWrapper {
+@Data
+@AllArgsConstructor
+public class ConnectionInfo {
 
     private Connection connection;
 
-    // used;unused
+    // available;using
     private String status;
 }
